@@ -1,6 +1,6 @@
-CREATE TABLE users(
+CREATE TABLE imgs(
     id SERIAL PRIMARY KEY,,
-    imgUrl VARCHAR,
+    imgUrl VARCHAR NOT NULL,
     title VARCHAR,
     discription,
     photo BOOLEAN,

@@ -1,11 +1,26 @@
 import React from "react";
+import { BrowserRouter, Route } from "react-router-DOM";
+import Header from "./header";
+import About from "./about";
+import Contact from "./contact";
+import Login from "./login";
+import Uploader from "./uploader";
 
-import { Link } from "react-router-dom";
-
-export default function FindPeople() {
+export default function App() {
     return (
         <div>
-            <h1> i m the app </h1>
+            <BrowserRouter>
+                <h1> i m the app </h1>
+                <Header />
+                <Route path="/about" component={About} />
+                <Route path="/contact" component={Contact} />
+                <Route path="/login" component={Login} />
+
+                <Uploader />
+            </BrowserRouter>
         </div>
     );
 }
+
+// {this.state.loggedin && (
+// )}
