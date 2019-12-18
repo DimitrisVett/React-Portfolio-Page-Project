@@ -19,3 +19,7 @@ body {
 input {
     margin-right: 50px;
 }
+img {
+    height: 200px;
+    width: 200px;
+}

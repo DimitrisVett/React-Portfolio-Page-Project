@@ -10,6 +10,7 @@ const { s3Url } = require("./config.json");
 const path = require("path");
 
 //////////////////////////uploader //////////////////////////////////
+// do csurf before publish
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -51,17 +52,89 @@ if (process.env.NODE_ENV != "production") {
 }
 
 ////////////////////////////////////routes///////////////////////////////
+// make app get photo and get paint
+app.post("/login", (req, res) => {
+    console.log("post login");
+    console.log(req.body.email);
+    if (req.body.email && req.body.password) {
+        db.login()
+            .then(({ rows }) => {
+                console.log(rows[0]);
+                if (
+                    rows[0].password == req.body.password &&
+                    rows[0].email == req.body.email
+                ) {
+                    console.log("they matched");
+                    req.session.admin = true;
+                    res.json({ success: true });
+                }
+            })
+            .catch(er => {
+                console.log(er);
+                res.json({ error: er });
+            });
+    } else {
+        res.json({ error: "smth went wrong" });
+    }
+});
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    const imgUrl = `${s3Url}${req.file.filename}`;
-    db.addProfPic(imgUrl, req.session.userId)
-        .then(() => {
-            res.json({ imgUrl: imgUrl });
+    console.log("post came");
+    console.log("req.body", req.body);
+    const { title, description, photo, paint } = req.body;
+
+    const imageUrl = `${s3Url}${req.file.filename}`;
+    console.log("imgurl :", imageUrl);
+    db.addImage(imageUrl, title, description, photo, paint)
+        .then(({ rows }) => {
+            console.log("it happend?");
+            res.json({
+                image: rows[0],
+                success: true
+            });
         })
-        .catch(er => {
-            console.log(er);
-            res.json({ error: er });
-        });
+        .catch(er => console.log(er));
+});
+
+app.get("/photos.json", (req, res) => {
+    db.getPhotos()
+        .then(({ rows }) => {
+            console.log("rows in get images", rows);
+            res.json(rows);
+        })
+        .catch(err => console.log("error in get Img ", err));
+});
+
+app.get("/paintings.json", (req, res) => {
+    db.getPaints()
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch(err => console.log("error in get Img ", err));
+});
+
+app.get("/painting.json/:id", (req, res) => {
+    db.getPaint(req.params.id)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch(err => console.log("error in get Img ", err));
+});
+
+app.get("/photos.json", (req, res) => {
+    db.getPhotos()
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch(err => console.log("error in get Img ", err));
+});
+
+app.get("/photo.json/:id", (req, res) => {
+    db.getPhoto(req.params.id)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch(err => console.log("error in get Img ", err));
 });
 
 app.get("*", function(req, res) {

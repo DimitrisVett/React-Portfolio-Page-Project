@@ -13,10 +13,10 @@ export default function Header() {
                 <Link to="/">
                     <h2>Contact</h2>
                 </Link>
-                <Link to="/">
+                <Link to="/photos">
                     <h2>Photography</h2>
                 </Link>
-                <Link to="/">
+                <Link to="/paintings">
                     <h2>Painting</h2>
                 </Link>
             </div>
