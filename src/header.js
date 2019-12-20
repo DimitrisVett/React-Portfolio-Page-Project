@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
     return (
-        <div>
-            <h1> i m the menu</h1>
+        <div className="header">
             <div className="menu">
+                <Link to="/">
+                    <h2>Home</h2>
+                </Link>
                 <Link to="/about">
                     <h2>About</h2>
                 </Link>
-                <Link to="/">
+                <Link to="/contact">
                     <h2>Contact</h2>
                 </Link>
                 <Link to="/photos">

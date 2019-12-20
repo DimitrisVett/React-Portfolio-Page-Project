@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "./axios";
 
-export default function uploader() {
+export default function uploader(props) {
     const [text, setText] = useState("text");
     const [discr, setDiscr] = useState("discription");
     const [radioPhoto, setPhoto] = useState("false");
@@ -36,7 +36,7 @@ export default function uploader() {
             });
     }
     return (
-        <div>
+        <div className="uploader">
             {msg && <div>Upload finished </div>}
             <input
                 type="text"
@@ -69,7 +69,8 @@ export default function uploader() {
                 accept="image/*"
                 onChange={e => setFile(e.target.files[0])}
             />
-            <button onClick={submit}> sumbit </button>
+            <button onClick={submit}> Sumbit </button>
+            <button onClick={() => props.logout(false)}> Close </button>
         </div>
     );
 }

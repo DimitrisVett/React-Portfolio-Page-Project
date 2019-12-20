@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-export default function Login() {
+export default function Login(props) {
     const [email, setEmail] = useState("name");
     const [password, setPass] = useState("value");
 
     /////////////// fix login ////////////////
     function submit() {
+        console.log(props);
         axios.post("/login", { email, password }).then(({ data }) => {
             console.log(data);
             if (data.success) {
-                location.replace("/");
+                props.loggin(true);
+                // location.replace("/");
             } else {
                 console.log("req failed in login");
             }
@@ -33,7 +35,7 @@ export default function Login() {
                     onChange={e => setPass(e.target.value)}
                 />
             </div>
-            <button onClick={() => submit()}>Sign Up</button>
+            <button onClick={() => submit()}>Log In</button>
             <Link to="/">close</Link>
         </div>
     );

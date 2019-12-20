@@ -99,7 +99,6 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/photos.json", (req, res) => {
     db.getPhotos()
         .then(({ rows }) => {
-            console.log("rows in get images", rows);
             res.json(rows);
         })
         .catch(err => console.log("error in get Img ", err));
@@ -110,7 +109,7 @@ app.get("/paintings.json", (req, res) => {
         .then(({ rows }) => {
             res.json(rows);
         })
-        .catch(err => console.log("error in get Img ", err));
+        .catch(err => console.log("error in get paintings ", err));
 });
 
 app.get("/painting.json/:id", (req, res) => {
@@ -118,7 +117,7 @@ app.get("/painting.json/:id", (req, res) => {
         .then(({ rows }) => {
             res.json(rows);
         })
-        .catch(err => console.log("error in get Img ", err));
+        .catch(err => console.log("error in get painting ", err));
 });
 
 app.get("/photos.json", (req, res) => {
@@ -126,15 +125,16 @@ app.get("/photos.json", (req, res) => {
         .then(({ rows }) => {
             res.json(rows);
         })
-        .catch(err => console.log("error in get Img ", err));
+        .catch(err => console.log("error in get photos ", err));
 });
 
 app.get("/photo.json/:id", (req, res) => {
+    console.log(req.params);
     db.getPhoto(req.params.id)
         .then(({ rows }) => {
             res.json(rows);
         })
-        .catch(err => console.log("error in get Img ", err));
+        .catch(err => console.log("error in get photo ", err));
 });
 
 app.get("*", function(req, res) {

@@ -4,6 +4,8 @@ import PaintModal from "./paintmodal";
 export default function Paintings() {
     const [paintings, setPaintings] = useState([]);
     const [modal, setModal] = useState(false);
+    const [imgId, setImgId] = useState("");
+
     useEffect(() => {
         console.log("modal", modal);
 
@@ -22,13 +24,19 @@ export default function Paintings() {
 
     return (
         <div>
-            {paintings.map(paintings => (
-                <div onClick={toggle} key={paintings.id}>
-                    <h1>{paintings.title}</h1>
-                    <img src={paintings.imgurl || "/assets/default.png"} />
-                    {modal && <PaintModal paintings={paintings} />}
+            {paintings.map(painting => (
+                <div
+                    onClick={() => {
+                        toggle();
+                        setImgId(painting.id);
+                    }}
+                    key={painting.id}
+                >
+                    <h1>{painting.title}</h1>
+                    <img src={painting.imgurl || "/assets/default.png"} />
                 </div>
             ))}
+            {modal && <PaintModal imgId={imgId} toggle={toggle} />}
         </div>
     );
 }
