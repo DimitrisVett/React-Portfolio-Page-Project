@@ -8,15 +8,13 @@ export default function Photos() {
     const [imgId, setImgId] = useState("");
 
     useEffect(() => {
-        console.log(photos);
-
         axios
             .get("/photos.json")
             .then(({ data }) => {
                 console.log(data);
                 setPhotos(data);
             })
-            .catch(err => console.log("err in find people: ", err));
+            .catch(err => console.log("err in axios /photos : ", err));
     }, []);
 
     function toggle() {
@@ -24,7 +22,7 @@ export default function Photos() {
     }
 
     return (
-        <div>
+        <div className="img-container">
             {photos.map(photo => (
                 <div
                     onClick={() => {
@@ -33,8 +31,10 @@ export default function Photos() {
                     }}
                     key={photo.id}
                 >
-                    <h1>{photo.title}</h1>
-                    <img src={photo.imgurl || "/assets/default.png"} />
+                    <div className="card">
+                        <h1>{photo.title}</h1>
+                        <img src={photo.imgurl || "/assets/default.png"} />
+                    </div>
                 </div>
             ))}
             {modal && <PhotoModal imgId={imgId} toggle={toggle} />}

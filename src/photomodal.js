@@ -15,7 +15,7 @@ export default function PhotoModal(props) {
             .catch(err => console.log("err in find people: ", err));
     }, []);
     return (
-        <div className="imgModal">
+        <div className="modal">
             <div onClick={props.toggle} className="outer">
                 <div className="inner">
                     <label>Back</label>

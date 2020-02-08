@@ -4,7 +4,7 @@ export default function Contact() {
     return (
         <div>
             <div className="video-container">
-                <video autoPlay muted className="aboutvideo">
+                <video autoPlay muted>
                     <source src="assets/timeremap.mp4" type="video/mp4" />
                 </video>
             </div>

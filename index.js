@@ -39,7 +39,7 @@ app.use(
 app.use(express.json());
 app.use(express.static("public"));
 
-//////////////////////////////////////////////////////////////////
+///////////////////////////bundle///////////////////////////////////////
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
@@ -52,19 +52,14 @@ if (process.env.NODE_ENV != "production") {
 }
 
 ////////////////////////////////////routes///////////////////////////////
-// make app get photo and get paint
 app.post("/login", (req, res) => {
-    console.log("post login");
-    console.log(req.body.email);
     if (req.body.email && req.body.password) {
         db.login()
             .then(({ rows }) => {
-                console.log(rows[0]);
                 if (
                     rows[0].password == req.body.password &&
                     rows[0].email == req.body.email
                 ) {
-                    console.log("they matched");
                     req.session.admin = true;
                     res.json({ success: true });
                 }
@@ -79,15 +74,11 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("post came");
-    console.log("req.body", req.body);
     const { title, description, photo, paint } = req.body;
 
     const imageUrl = `${s3Url}${req.file.filename}`;
-    console.log("imgurl :", imageUrl);
     db.addImage(imageUrl, title, description, photo, paint)
         .then(({ rows }) => {
-            console.log("it happend?");
             res.json({
                 image: rows[0],
                 success: true
@@ -129,7 +120,6 @@ app.get("/photos.json", (req, res) => {
 });
 
 app.get("/photo.json/:id", (req, res) => {
-    console.log(req.params);
     db.getPhoto(req.params.id)
         .then(({ rows }) => {
             res.json(rows);

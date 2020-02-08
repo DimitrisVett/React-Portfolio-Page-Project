@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import PaintModal from "./paintmodal";
+
 export default function Paintings() {
     const [paintings, setPaintings] = useState([]);
     const [modal, setModal] = useState(false);
     const [imgId, setImgId] = useState("");
 
     useEffect(() => {
-        console.log("modal", modal);
-
         axios
             .get("/paintings.json")
             .then(({ data }) => {
                 console.log(data);
                 setPaintings(data);
             })
-            .catch(err => console.log("err in find people: ", err));
+            .catch(err => console.log("err in axios /paintings :", err));
     }, []);
 
     function toggle() {
@@ -23,7 +22,12 @@ export default function Paintings() {
     }
 
     return (
-        <div>
+        <div className="img-container">
+            <div className="video-container">
+                <video autoPlay muted>
+                    <source src="assets/img.mp4" type="video/mp4" />
+                </video>
+            </div>
             {paintings.map(painting => (
                 <div
                     onClick={() => {
@@ -32,8 +36,10 @@ export default function Paintings() {
                     }}
                     key={painting.id}
                 >
-                    <h1>{painting.title}</h1>
-                    <img src={painting.imgurl || "/assets/default.png"} />
+                    <div className="card">
+                        <h1>{painting.title}</h1>
+                        <img src={painting.imgurl || "/assets/default.png"} />
+                    </div>
                 </div>
             ))}
             {modal && <PaintModal imgId={imgId} toggle={toggle} />}

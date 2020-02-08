@@ -5,16 +5,13 @@ export default function Login(props) {
     const [email, setEmail] = useState("name");
     const [password, setPass] = useState("value");
 
-    /////////////// fix login ////////////////
     function submit() {
-        console.log(props);
         axios.post("/login", { email, password }).then(({ data }) => {
-            console.log(data);
             if (data.success) {
                 props.loggin(true);
                 // location.replace("/");
             } else {
-                console.log("req failed in login");
+                console.log("req failed in login-data:", data);
             }
         });
     }

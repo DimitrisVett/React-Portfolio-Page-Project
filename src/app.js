@@ -10,17 +10,18 @@ import Paintings from "./paintings";
 
 export default function App() {
     const [loggedin, setLoggedin] = useState(false);
-    useEffect(() => {
-        console.log("loggedin", loggedin);
-    }, []);
+    useEffect(() => {}, []);
+    // useEffect(() => {
+    //     console.log("loggedin", loggedin);
+    // }, []);
+    //useEffect only to check if loggin works
     function loggin(arg) {
-        console.log("loggin is happening!!");
         setLoggedin(arg);
     }
     return (
         <div className="wrapper">
             <div className="video-container">
-                <video autoPlay muted className="aboutvideo">
+                <video autoPlay muted>
                     <source src="assets/spil.mp4" type="video/mp4" />
                 </video>
             </div>
@@ -38,5 +39,7 @@ export default function App() {
     );
 }
 
-// {this.state.loggedin && (
-// )}
+//next steps
+//add a feature for editing the images (add or change description or tilte or delete img.)
+//there is a bug with video elements. propably something with the virtual dom
+//add background video to setModal

@@ -68,6 +68,7 @@ export default function uploader(props) {
                 name="file"
                 accept="image/*"
                 onChange={e => setFile(e.target.files[0])}
+                required
             />
             <button onClick={submit}> Sumbit </button>
             <button onClick={() => props.logout(false)}> Close </button>
